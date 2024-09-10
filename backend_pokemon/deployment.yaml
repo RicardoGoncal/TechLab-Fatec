@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-poke
+  namespace: production
+  labels:
+    app: backend-poke
+spec:
+  replicas: 1  # Número de réplicas da aplicação
+  selector:
+    matchLabels:
+      app: backend-poke
+  template:
+    metadata:
+      labels:
+        app: backend-poke
+    spec:
+      containers:
+      - name: backend-poke
+        image: ricardostudo/fatec-backend-poke:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
+        ports:
+        - containerPort: 8001  # Porta em que a aplicação backend omdb estara rodando
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "64Mi"
+        #     cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-poke-service
+  namespace: production
+spec:
+  selector:
+    app: backend-poke
+  ports:
+    - name: http
+      port: 8001  # Porta externa exposta
+      targetPort: 8001  # Porta onde o container Vue.js está escutando

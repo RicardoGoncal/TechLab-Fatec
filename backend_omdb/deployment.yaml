@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-omdb
+  namespace: production
+  labels:
+    app: backend-omdb
+spec:
+  replicas: 1  # Número de réplicas da aplicação
+  selector:
+    matchLabels:
+      app: backend-omdb
+  template:
+    metadata:
+      labels:
+        app: backend-omdb
+    spec:
+      containers:
+      - name: backend-omdb
+        image: ricardostudo/fatec-backend-omdb:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
+        ports:
+        - containerPort: 8000  # Porta em que a aplicação backend omdb estara rodando
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        #   requests:
+        #     memory: "64Mi"
+        #     cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-omdb-service
+  namespace: production
+spec:
+  type: NodePort
+  selector:
+    app: backend-omdb
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000  # Porta externa exposta
+      nodePort: 30001  # Porta onde o container Vue.js está escutando
