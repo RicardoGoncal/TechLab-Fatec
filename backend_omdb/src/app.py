@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
+import os
 
 app = FastAPI()
 
@@ -20,7 +21,7 @@ app.add_middleware(
 
 
 # JSONPlaceholder API URL
-API_URL = "http://www.omdbapi.com/?apikey=707a46d3&t="
+API_URL = f"http://www.omdbapi.com/?apikey={os.getenv('OMDB_KEY')}="
 
 @app.get("/health-check")
 async def health_check():

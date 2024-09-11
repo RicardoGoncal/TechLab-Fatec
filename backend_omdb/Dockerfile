@@ -13,6 +13,9 @@ RUN pip install -r /app/requirements.txt
 # Copie o restante do código fonte para o diretório de trabalho
 COPY . .
 
+# Variaveis de embiente
+ENV OMDB_KEY="707a46d3&t"
+
 # Exponha a porta em que o servidor da aplicação estará rodando
 EXPOSE 8000
 

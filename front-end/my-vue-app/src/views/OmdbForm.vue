@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import { API_URL } from "@/config";
+  import { API_URL_OMDB } from "@/config";
 
   export default {
     data() {
@@ -46,7 +46,7 @@
     },
     methods: {
       async fetchMovieData() {
-        const response = await fetch(`${API_URL}/movie/${this.movieTitle}`);
+        const response = await fetch(`${API_URL_OMDB}/movie/${this.movieTitle}`);
         const data = await response.json();
         this.movieData = data;
       },

@@ -35,6 +35,8 @@
   </template>
   
   <script>
+  import { API_URL_POKE } from "@/config";
+
   export default {
     data() {
       return {
@@ -44,7 +46,7 @@
     },
     methods: {
       async fetchpokeData() {
-        const response = await fetch(`http://localhost:8001/pokemon/${this.pokeName}`);
+        const response = await fetch(`${API_URL_POKE}/pokemon/${this.pokeName}`);
         const data = await response.json();
         this.pokeData = data;
       },
