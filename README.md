@@ -45,12 +45,30 @@ já vem instalado, mas pode não estar também.
 - Link para Download do Python (Windows e MAC): `https://www.python.org/downloads/`
 - Link para Instalação Linux: `https://python.org.br/instalacao-linux/`
 
-## Instalação (Minikube/Kind)
+## Instalação Kind
 
 O kind (Kubernetes IN Docker) é uma ferramenta que permite rodar clusters Kubernetes localmente usando contêineres Docker. Ele é útil para testar, desenvolver e realizar experimentos com Kubernetes de maneira simples, sem a necessidade de uma infraestrutura complexa.
 
 - Pré-requisito: Ter o Docker instalado na máquina.
 
+- Link base para instalação do Kind em cada Sistema Operacional: `https://kind.sigs.k8s.io/docs/user/quick-start/#installation`
+
+- Configuração do cluster com exposição de portas locais para cada serviço:
+```
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: fatec-cluster
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30000
+        hostPort: 30000
+      - containerPort: 30001
+        hostPort: 30001
+      - containerPort: 30002
+        hostPort: 30002
+  - role: worker
+```
 
 ## Instalação do virtualenv( Lib Python)
 
@@ -91,14 +109,16 @@ Para realizar uma instalação de pacote:
 
 ## DockerHub
 
-Explicar o que é Dockerhub .....
+O Docker Hub é um serviço online que funciona como um repositório central para imagens de contêiner Docker. Ele permite que desenvolvedores, equipes e organizações armazenem, compartilhem e distribuam imagens Docker de maneira fácil e eficiente.
+
+- Crie sua conta: `https://hub.docker.com/`
 
 ## Utilizando o Docker no TechLab
 
 No laboratório iremos utilizar o Docker para criar a imagem que será aplicada em um pod
 dentro do ambiente kubernetes. Para que isso seja possível, alguns passos devem ser seguidos:
 
-- Criar um arquivo Dockerfile que conterá tudo que é necessário para criar a imagem, como:
+1. Criar um arquivo Dockerfile que conterá tudo que é necessário para criar a imagem, como:
     imagem base, comandos CLI, comandos para cópia de dados, dentre outros.
 
 ```
@@ -122,14 +142,14 @@ CMD ["python", "app.py"]
 
 ```
 
-- Após criar o arquivo Dockerfile, na mesma pasta em que ele está contido, vamos dar alguns comandos:
+2. Após criar o arquivo Dockerfile, na mesma pasta em que ele está contido, vamos dar alguns comandos:
     - Comando para criar a imagem local: `docker build -tag <nome-da-tag> .`
     - Comando para verificar: `docker images`
 
-- Para executar a imagem, podemos aplicar o comando local para teste:
+3. Para executar a imagem, podemos aplicar o comando local para teste:
     - Comando para executar: `docker run -p 8080:8080 <nome-da-imagem>`
 
-- Quando executamos via kubernetes, o mais comum é fazer um upload da imagem à um repositório. Neste caso,
+4. Quando executamos via kubernetes, o mais comum é fazer um upload da imagem à um repositório. Neste caso,
     usaremos o Dockerhub.
     - Criar uma conta no docker hub.
     - Criar uma nova imagem com uma tag especifica: `docker tag <nome-da-imagem-local:latest> <nome-do-repo/nome-imagem:tag>`
@@ -141,3 +161,30 @@ CMD ["python", "app.py"]
 
 
 ## Utilizando o Kind no TechLab
+
+Após a instalação do nosso ambiente de kubernetes local **(ver instalação do Kind)**, executaremos alguns passos:
+
+1. Criar dois namespaces:
+    - `kubectl create namespace frontend`
+    - `kubectl create namespace production`
+
+2. Verificar todos os namespaces
+    - `kubens`
+
+3. Criar o serviço de frontend:
+    - na pasta front-end temos um arquivo de **deployment.yaml** que contém as configurações kubernetes para subir
+    um container. Execute o comando: `kubectl apply -f ./<nome-do-arquivo.yaml>`.
+
+4. Criar o serviço backend omdb:
+    - na pasta backend_omdb temos um arquivo de **deployment.yaml** que contém as configurações kubernetes para subir
+    um container. Execute o comando: `kubectl apply -f ./<nome-do-arquivo.yaml>`.
+
+5. Criar o serviço backend pokemon:
+    - na pasta backend_pokemon temos um arquivo de **deployment.yaml** que contém as configurações kubernetes para subir
+    um container. Execute o comando: `kubectl apply -f ./<nome-do-arquivo.yaml>`. 
+
+6. Verificar se o pod foi criado:
+    - `kubectl get pods -n <nome-do-namespace>`
+
+7. Verificar se o serviço foi criado:
+    - `kubectl get services -n <nome-do-namespace>`
