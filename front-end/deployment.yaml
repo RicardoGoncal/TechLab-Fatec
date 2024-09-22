@@ -29,10 +29,10 @@ metadata:
   name: vue-frontend-service
   namespace: frontend
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: frontend
   ports:
-    - protocol: TCP
-      port: 80  # Porta externa exposta
-      targetPort: 8080  # Porta onde o container Vue.js está escutando
+    - port: 80
+      targetPort: 8080  # Porta externa exposta
+      nodePort: 30002

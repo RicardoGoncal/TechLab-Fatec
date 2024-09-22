@@ -33,7 +33,6 @@ spec:
   selector:
     app: backend-poke
   ports:
-    - protocol: TCP
-      port: 8001  # Porta externa exposta
+    - port: 8001  # Porta externa exposta
       targetPort: 8001  # 
-      nodePort: 30002  # 
+      nodePort: 30001  # 

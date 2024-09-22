@@ -47,7 +47,10 @@ já vem instalado, mas pode não estar também.
 
 ## Instalação (Minikube/Kind)
 
-Escolhendo qual utilizar....... No momento temos o minikube.
+O kind (Kubernetes IN Docker) é uma ferramenta que permite rodar clusters Kubernetes localmente usando contêineres Docker. Ele é útil para testar, desenvolver e realizar experimentos com Kubernetes de maneira simples, sem a necessidade de uma infraestrutura complexa.
+
+- Pré-requisito: Ter o Docker instalado na máquina.
+
 
 ## Instalação do virtualenv( Lib Python)
 
@@ -86,4 +89,55 @@ Para realizar uma instalação de pacote:
 
 **OBS: Pode ser que seja necessário este passo para realizar a build da imagem Docker**
 
-## 
+## DockerHub
+
+Explicar o que é Dockerhub .....
+
+## Utilizando o Docker no TechLab
+
+No laboratório iremos utilizar o Docker para criar a imagem que será aplicada em um pod
+dentro do ambiente kubernetes. Para que isso seja possível, alguns passos devem ser seguidos:
+
+- Criar um arquivo Dockerfile que conterá tudo que é necessário para criar a imagem, como:
+    imagem base, comandos CLI, comandos para cópia de dados, dentre outros.
+
+```
+# Use a imagem base oficial do Python
+FROM python:3.9-slim
+
+# Defina o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copie o arquivo requirements.txt para o diretório de trabalho
+COPY requirements.txt .
+
+# Instale as dependências necessárias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie todo o código da aplicação para o diretório de trabalho
+COPY . .
+
+# Especifique o comando para rodar a aplicação
+CMD ["python", "app.py"]
+
+```
+
+- Após criar o arquivo Dockerfile, na mesma pasta em que ele está contido, vamos dar alguns comandos:
+    - Comando para criar a imagem local: `docker build -tag <nome-da-tag> .`
+    - Comando para verificar: `docker images`
+
+- Para executar a imagem, podemos aplicar o comando local para teste:
+    - Comando para executar: `docker run -p 8080:8080 <nome-da-imagem>`
+
+- Quando executamos via kubernetes, o mais comum é fazer um upload da imagem à um repositório. Neste caso,
+    usaremos o Dockerhub.
+    - Criar uma conta no docker hub.
+    - Criar uma nova imagem com uma tag especifica: `docker tag <nome-da-imagem-local:latest> <nome-do-repo/nome-imagem:tag>`
+    - Realizar o upload para o DockerHub: `docker push <nome-do-repo/nome-imagem:tag>`
+
+    ![alt text](image.png)
+
+**OBS: Pode ser necessário realizar login no Docker. Use o comando no terminal: `docker login`** 
+
+
+## Utilizando o Kind no TechLab

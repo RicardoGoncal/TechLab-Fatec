@@ -21,7 +21,7 @@ spec:
         image: ricardostudo/fatec-backend-omdb:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
         ports:
         - containerPort: 8000  # Porta em que a aplicação backend omdb estara rodando
-     
+
 ---
 apiVersion: v1
 kind: Service
@@ -33,7 +33,6 @@ spec:
   selector:
     app: backend-omdb
   ports:
-    - protocol: TCP
-      port: 8000
+    - port: 8000
       targetPort: 8000  # Porta externa exposta
-      nodePort: 30001  # Porta onde o container Vue.js está escutando
+      nodePort: 30000
