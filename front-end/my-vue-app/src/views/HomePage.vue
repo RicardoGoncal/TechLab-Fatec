@@ -8,7 +8,7 @@
 
     <h3>Essential Links</h3>
     <ul>
-      <li><a href="https://minikube.sigs.k8s.io/docs/" target="_blank" rel="noopener">Minikube</a></li>
+      <li><a href="https://kind.sigs.k8s.io/" target="_blank" rel="noopener">Kind</a></li>
       <li><a href="https://br.vuejs.org/" target="_blank" rel="noopener">Vue Org</a></li>
       <li><a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a></li>
       <li><a href="https://docs.docker.com/engine/install/" target="_blank" rel="noopener">Docker Install</a></li>
