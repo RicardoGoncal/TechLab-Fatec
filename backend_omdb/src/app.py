@@ -24,12 +24,12 @@ app.add_middleware(
 API_URL = f"http://www.omdbapi.com/?apikey={os.getenv('OMDB_KEY')}="
 
 # Endpoint para verificar se a API está funcionando
-@app.get("/health-check")
+@app.get("/api1/health-check")
 async def health_check():
     return {"API Saudavel!!"}  # Retorna uma mensagem simples de saúde
 
 # Endpoint para buscar informações de um filme pelo nome
-@app.get("/movie/{movie_name}")
+@app.get("/api1/movie/{movie_name}")
 async def get_movie(movie_name: str):
     # Faz uma requisição assíncrona para a API pública (OMDb)
     async with httpx.AsyncClient() as client:

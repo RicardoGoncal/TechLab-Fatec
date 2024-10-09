@@ -21,6 +21,21 @@ spec:
         image: ricardostudo/fatec-backend-poke:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
         ports:
         - containerPort: 8001  # Porta em que a aplicação backend pokemon estará rodando
+# ---
+# apiVersion: v1
+# kind: Service  # Define o tipo de recurso como Service
+# metadata:
+#   name: backend-poke-service  # Nome do serviço
+#   namespace: production  # Namespace onde o serviço será criado
+# spec:
+#   type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
+#   selector:
+#     app: backend-poke  # Seleciona os pods que têm a label 'app: backend-poke'
+#   ports:
+#     - port: 8001  # Porta interna do serviço
+#       targetPort: 8001  # Porta no pod que será mapeada
+#       nodePort: 30001  # Porta exposta no nó (externa)
+
 ---
 apiVersion: v1
 kind: Service  # Define o tipo de recurso como Service
@@ -28,10 +43,9 @@ metadata:
   name: backend-poke-service  # Nome do serviço
   namespace: production  # Namespace onde o serviço será criado
 spec:
-  type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
   selector:
-    app: backend-poke  # Seleciona os pods que têm a label 'app: backend-poke'
+    app: backend-poke  # Seleciona os pods que têm a label 'app: backend-omdb'
   ports:
-    - port: 8001  # Porta interna do serviço
+    - protocol: TCP
+      port: 80  # Porta interna do serviço
       targetPort: 8001  # Porta no pod que será mapeada
-      nodePort: 30001  # Porta exposta no nó (externa)

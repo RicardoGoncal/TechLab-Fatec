@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: grant-to-fatec-gateway
+  namespace: production
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default  # O namespace onde o HTTPRoute está definido
+  to:
+    - group: ""
+      kind: Service
+      name: backend-omdb-service
+    - group: ""
+      kind: Service
+      name: backend-poke-service
+    - group: ""
+      kind: Service
+      name: vue-frontend-service

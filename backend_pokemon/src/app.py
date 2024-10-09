@@ -42,12 +42,12 @@ class Pokemon(BaseModel):
 API_URL = "https://pokeapi.co/api/v2/pokemon/"
 
 # Endpoint para verificar se a API está saudável
-@app.get("/health-check")
+@app.get("/api2/health-check")
 async def health_check():
     return {"API Saudavel!!"}  # Retorna uma mensagem simples de saúde
 
 # Endpoint para buscar informações de um Pokémon pelo nome
-@app.get("/pokemon/{pokemon_name}")
+@app.get("/api2/pokemon/{pokemon_name}")
 async def get_pokemon(pokemon_name: str):
     # Faz uma requisição assíncrona para a API pública (PokeAPI)
     async with httpx.AsyncClient() as client:

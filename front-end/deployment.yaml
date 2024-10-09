@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment  # Define o tipo de recurso como um Deployment
 metadata:
   name: vue-frontend  # Nome do Deployment
-  namespace: frontend  # Namespace onde o recurso será criado (frontend)
+  namespace: production  # Namespace onde o recurso será criado (frontend)
   labels:
     app: frontend  # Rótulos para identificar e organizar recursos
 spec:
@@ -21,17 +21,31 @@ spec:
         image: ricardostudo/fatec-frontend:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
         ports:
         - containerPort: 8080  # Porta em que a aplicação Vue.js está rodando
+# ---
+# apiVersion: v1
+# kind: Service  # Define o tipo de recurso como Service
+# metadata:
+#   name: vue-frontend-service  # Nome do serviço
+#   namespace: frontend  # Namespace onde o serviço será criado
+# spec:
+#   type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
+#   selector:
+#     app: frontend  # Seleciona os pods que têm a label 'app: frontend'
+#   ports:
+#     - port: 80  # Porta interna do serviço (padrão HTTP)
+#       targetPort: 8080  # Porta no pod que será mapeada
+#       nodePort: 30002  # Porta exposta no nó (externa)
+
 ---
 apiVersion: v1
 kind: Service  # Define o tipo de recurso como Service
 metadata:
   name: vue-frontend-service  # Nome do serviço
-  namespace: frontend  # Namespace onde o serviço será criado
+  namespace: production  # Namespace onde o serviço será criado
 spec:
-  type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
   selector:
-    app: frontend  # Seleciona os pods que têm a label 'app: frontend'
+    app: frontend  # Seleciona os pods que têm a label 'app: backend-omdb'
   ports:
-    - port: 80  # Porta interna do serviço (padrão HTTP)
+    - protocol: TCP
+      port: 80  # Porta interna do serviço
       targetPort: 8080  # Porta no pod que será mapeada
-      nodePort: 30002  # Porta exposta no nó (externa)

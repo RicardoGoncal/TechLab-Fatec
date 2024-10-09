@@ -1,2 +1,2 @@
-export const API_URL_OMDB = "http://127.0.0.1:30000";
-export const API_URL_POKE = "http://127.0.0.1:30001";
+export const API_URL_OMDB = "http://localhost:8080/api1";
+export const API_URL_POKE = "http://localhost:8080/api2";
