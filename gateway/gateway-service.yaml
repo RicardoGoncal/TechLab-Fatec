@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: nginx-gateway
     app.kubernetes.io/version: "1.4.0"
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app.kubernetes.io/name: nginx-gateway
     app.kubernetes.io/instance: nginx-gateway
@@ -17,9 +17,7 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 80
-      nodePort: 31437
     - name: https
       port: 443
       protocol: TCP
       targetPort: 443
-      nodePort: 31438
