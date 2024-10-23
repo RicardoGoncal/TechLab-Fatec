@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service  # Define o tipo de recurso como Service
+metadata:
+  name: backend-omdb-service  # Nome do serviço
+  namespace: production  # Namespace onde o serviço será criado
+spec:
+  type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
+  selector:
+    app: backend-omdb  # Seleciona os pods que têm a label 'app: backend-omdb'
+  ports:
+    - port: 8000  # Porta interna do serviço
+      targetPort: 8000  # Porta no pod que será mapeada
+      nodePort: 30000  # Porta exposta no nó (externa)
