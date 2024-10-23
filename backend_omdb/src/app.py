@@ -6,10 +6,10 @@ import os  # Biblioteca para acessar variáveis de ambiente
 app = FastAPI()  # Inicializa a aplicação FastAPI
 
 # Configurações de CORS (Cross-Origin Resource Sharing)
-origins = [
-    "http://localhost:8080",  # Substitua pelo endereço do seu frontend Vue.js
-    "http://localhost",        # Endereço local
-]
+# origins = [
+#     "http://localhost:8080",  # Substitua pelo endereço do seu frontend Vue.js
+#     "http://localhost",        # Endereço local
+# ]
 
 # Adiciona o middleware de CORS para permitir requisições de outros domínios
 app.add_middleware(

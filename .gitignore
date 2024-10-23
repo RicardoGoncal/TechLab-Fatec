@@ -1,0 +1,7 @@
+*.terraform.lock.hcl
+*LICENSE.txt
+*terraform-provider-google*
+*terraform-provider-local*
+*terraform-provider-kubernetes*
+*terraform-provider-random*
+*modules.json
