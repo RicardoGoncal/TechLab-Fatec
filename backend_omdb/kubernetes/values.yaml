@@ -1,0 +1,30 @@
+# Default values for backend-omdb.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+Deployment:
+  namespace: production
+  replicas: 1
+  containerPort: 8000
+
+ServiceKind:
+  enabled: true
+  port: 8000  # Porta interna do serviço
+  nodePort: 30000
+  targetPort: 8000
+  type: NodePort
+
+ServiceGateway:
+  enabled: false
+  port: 80  # Porta interna do serviço
+  targetPort: 8000
+  protocol: TCP
+
+
+

@@ -1,0 +1,16 @@
+---
+{{- if .Values.ServiceGateway.enabled }}
+apiVersion: v1
+kind: Service  # Define o tipo de recurso como Service
+metadata:
+  name: {{ printf "%s-service" (include "backend-poke.name" .) }}  # Nome do serviço
+  namespace: {{ .Values.Deployment.namespace }}  # Namespace onde o serviço será criado
+spec:
+  selector:
+    app.kubernetes.io/name: {{ include "backend-poke.name" . }}  # Seleciona os pods que têm a label 'app: backend-poke'
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - protocol: {{ .Values.ServiceGateway.targetPort }}
+      port: {{ .Values.ServiceGateway.port }}  # Porta interna do serviço
+      targetPort: {{ .Values.ServiceGateway.targetPort }}  # Porta no pod que será mapeada
+{{- end }}

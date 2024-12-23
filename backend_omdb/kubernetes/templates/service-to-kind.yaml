@@ -1,0 +1,17 @@
+---
+{{- if .Values.ServiceKind.enabled }}
+apiVersion: v1
+kind: Service  # Define o tipo de recurso como Service
+metadata:
+  name: {{ printf "%s-service" (include "backend-omdb.name" .) }}  # Nome do serviço
+  namespace: {{ .Values.namespace }}  # Namespace onde o serviço será criado
+spec:
+  type: {{ .Values.ServiceKind.type }}  # Tipo de serviço que expõe a aplicação com um NodePort
+  selector:
+    app.kubernetes.io/name: {{ include "backend-omdb.name" . }}  # Seleciona os pods que têm a label 'app: backend-omdb'
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - port: {{ .Values.ServiceKind.port }}  # Porta interna do serviço
+      targetPort: {{ .Values.ServiceKind.targetPort }}  # Porta no pod que será mapeada
+      nodePort: {{ .Values.ServiceKind.nodePort }}  # Porta exposta no nó (externa)
+{{- end }}

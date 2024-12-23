@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment  # Define o tipo de recurso como um Deployment
+metadata:
+  name: {{ include "backend-poke.fullname" . }}  # Nome do Deployment
+  namespace: {{ .Values.Deployment.namespace }}  # Namespace onde o recurso será criado
+  labels:
+    app.kubernetes.io/name: {{ include "backend-poke.name" . }} # Rótulos para identificar e organizar recursos
+    helm.sh/chart: {{ include "backend-poke.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.Deployment.replicas }}  # Número de réplicas da aplicação
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "backend-poke.name" . }}  # Filtro para selecionar pods com a label 'app: backend-poke'
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "backend-poke.name" . }} # Rótulos usados para identificar os pods
+        app.kubernetes.io/instance: {{ .Release.Name }}  
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}  # Nome do container
+        image: ricardostudo/fatec-backend-poke:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.Deployment.containerPort }}  # Porta em que a aplicação backend omdb estará rodando
