@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service  # Define o tipo de recurso como Service
+metadata:
+  name: vue-frontend-service  # Nome do serviço
+  namespace: production  # Namespace onde o serviço será criado
+spec:
+  selector:
+    app: frontend  # Seleciona os pods que têm a label 'app: backend-omdb'
+  ports:
+    - protocol: TCP
+      port: 80  # Porta interna do serviço
+      targetPort: 8080  # Porta no pod que será mapeada
