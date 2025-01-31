@@ -29,6 +29,8 @@ spec:
               value: "k8s-runner"
             - name: RUNNER_LABELS
               value: "k8s"
+            - name: RUNNER_EPHEMERAL
+              value: "true"
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 1000

@@ -29,7 +29,7 @@ jobs:
       # Configurar kubectl for kind
       - name: Configure kubectl
         run: |
-          kubectl config set-context kind-kind --cluster=kind-kind --user=kind-kind
+          kubectl config set-context fatec-cluster --cluster=fatec-cluster --user=fatec-cluster
 
       # Verifica conexão kubernetes
       - name: Check connection with Kubernetes
