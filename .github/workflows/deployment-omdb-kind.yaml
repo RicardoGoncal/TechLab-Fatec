@@ -61,7 +61,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: backend_omdb
+          context: ./backend_omdb
           file: backend_omdb/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_REGISTRY }}/backend_omdb:latest

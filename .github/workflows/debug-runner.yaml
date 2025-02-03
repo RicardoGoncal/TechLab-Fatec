@@ -1,0 +1,21 @@
+name: Debug Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: [self-hosted, linux, X64]
+    steps:
+      - name: Exibir informações do sistema
+        run: |
+          echo "Hostname:"
+          hostname
+          echo "IP do Servidor:"
+          hostname -I
+          echo "Usuário atual:"
+          whoami
+          echo "Diretório atual:"
+          pwd
+          echo "Verificando processos do runner:"
+          ps aux | grep actions-runner
