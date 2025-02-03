@@ -72,7 +72,7 @@ jobs:
           cd backend_omdb/kubernetes
           ls
           pwd
-          helm upgrade --install backend-omdb . --set image.repository=${{ secrets.DOCKER_REGISTRY }}/backend_omdb --set image.tag=latest --values values.yaml
+          helm upgrade --install backend-omdb .  --values values.yaml
       
       # Deploy Backend POKE com Helm
       - name: Deploy Backend POKE with Helm
@@ -80,7 +80,7 @@ jobs:
           cd backend_pokemon/kubernetes
           ls
           pwd
-          helm upgrade --install backend-pokemon . --set image.repository=${{ secrets.DOCKER_REGISTRY }}/backend_pokemon --set image.tag=latest --values values.yaml
+          helm upgrade --install backend-pokemon . t --values values.yaml
       
       # Deploy Frontend com Helm
       - name: Deploy Frontend with Helm
@@ -88,5 +88,5 @@ jobs:
           cd front-end/kubernetes
           ls
           pwd
-          helm upgrade --install backend-pokemon . --set image.repository=${{ secrets.DOCKER_REGISTRY }}/backend_pokemon --set image.tag=latest --values values.yaml
+          helm upgrade --install frontend .  --values values.yaml
           
