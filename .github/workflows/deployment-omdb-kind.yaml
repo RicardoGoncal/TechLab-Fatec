@@ -58,13 +58,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # acessa a pasta backend_omdd, gerar uma imagem com o Dockerfile e armazenar em um registry
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend_omdb
-          file: backend_omdb/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/backend_omdb:latest
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ./backend_omdb
+      #     file: backend_omdb/Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_REGISTRY }}/backend_omdb:latest
 
       # Deploy com Helm
       - name: Deploy with Helm
