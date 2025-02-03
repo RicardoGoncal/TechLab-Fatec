@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service  # Define o tipo de recurso como Service
 metadata:
   name: vue-frontend-service  # Nome do serviço
-  namespace: frontend  # Namespace onde o serviço será criado
+  namespace: production  # Namespace onde o serviço será criado
 spec:
   type: NodePort  # Tipo de serviço que expõe a aplicação com um NodePort
   selector:
