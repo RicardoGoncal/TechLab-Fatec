@@ -17,6 +17,21 @@ jobs:
           echo "📌 Checando processos ativos do runner:"
           ps aux | grep actions-runner
 
+
+      - name: Instalar/Reinstalar Docker
+        run: |
+          echo "📌 Instalando o Docker novamente..."
+          sudo apt-get update
+          sudo apt-get remove -y docker docker-engine docker.io containerd runc
+          sudo apt-get install -y docker.io
+          
+          echo "📌 Iniciando o Docker após a instalação..."
+          sudo systemctl start docker
+          
+          echo "📌 Verificando se o Docker está rodando..."
+          docker ps || echo "⚠️ Ainda não foi possível conectar ao Docker!"
+
+
       - name: Verificar Docker
         run: |
           echo "📌 Verificando se o Docker está instalado..."
