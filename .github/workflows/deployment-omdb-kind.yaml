@@ -20,6 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Debug: Verificar estrutura do workspace
+      - name: Debug workspace
+        run: |
+          ls -la
+          pwd
+
       # Instalar kubectl
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
@@ -45,7 +51,7 @@ jobs:
 
       # Realizar login no Docker registry 
       - name: Log in to Docker registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ secrets.DOCKER_REGISTRY }}
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -53,7 +59,7 @@ jobs:
 
       # acessa a pasta backend_omdd, gerar uma imagem com o Dockerfile e armazenar em um registry
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: backend_omdb
           file: backend_omdb/Dockerfile
