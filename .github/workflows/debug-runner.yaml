@@ -6,16 +6,47 @@ on:
 jobs:
   debug:
     runs-on: [self-hosted, linux, X64]
+
     steps:
       - name: Exibir informações do sistema
         run: |
-          echo "Hostname:"
-          hostname
-          echo "IP do Servidor:"
-          hostname -I
-          echo "Usuário atual:"
-          whoami
-          echo "Diretório atual:"
-          pwd
-          echo "Verificando processos do runner:"
+          echo "📌 Hostname: $(hostname)"
+          echo "📌 IP do Servidor: $(hostname -I)"
+          echo "📌 Usuário atual: $(whoami)"
+          echo "📌 Diretório atual: $(pwd)"
+          echo "📌 Checando processos ativos do runner:"
           ps aux | grep actions-runner
+
+      - name: Verificar Docker
+        run: |
+          echo "📌 Verificando se o Docker está instalado..."
+          if command -v docker &> /dev/null; then
+            echo "✅ Docker está instalado!"
+            echo "📌 Versão do Docker:"
+            docker --version
+          else
+            echo "❌ Docker não encontrado!"
+            exit 1
+          fi
+
+      - name: Verificar status do Docker Daemon
+        run: |
+          echo "📌 Status do serviço Docker:"
+          sudo systemctl status docker || echo "⚠️ Falha ao verificar o status"
+
+      - name: Verificar permissões do Docker
+        run: |
+          echo "📌 Checando permissões do Docker para o usuário atual..."
+          if groups | grep -q '\bdocker\b'; then
+            echo "✅ Usuário faz parte do grupo docker"
+          else
+            echo "❌ Usuário NÃO está no grupo docker"
+            echo "📌 Adicionando usuário ao grupo docker..."
+            sudo usermod -aG docker $(whoami) || echo "⚠️ Falha ao adicionar usuário ao grupo"
+            echo "📌 Para aplicar as mudanças, reinicie o runner manualmente!"
+          fi
+
+      - name: Testar acesso ao Docker
+        run: |
+          echo "📌 Tentando rodar docker ps..."
+          docker ps || echo "⚠️ Falha ao acessar o Docker (talvez o daemon não esteja rodando?)"
