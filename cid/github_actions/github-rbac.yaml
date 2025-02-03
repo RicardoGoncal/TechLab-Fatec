@@ -4,7 +4,7 @@ metadata:
   name: github-actions-binding
 subjects:
 - kind: ServiceAccount
-  name: github-actions
+  name: default
   namespace: actions-runner-system
 roleRef:
   kind: ClusterRole
