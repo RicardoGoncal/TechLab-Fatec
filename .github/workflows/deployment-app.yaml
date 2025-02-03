@@ -66,21 +66,21 @@ jobs:
       #     push: true
       #     tags: ${{ secrets.DOCKER_REGISTRY }}/backend_omdb:latest
 
-      # # Deploy Backend OMDB com Helm
-      # - name: Deploy Backend OMDB with Helm
-      #   run: |
-      #     cd backend_omdb/kubernetes
-      #     ls
-      #     pwd
-      #     helm upgrade --install backend-omdb . --values values.yaml
+      # Deploy Backend OMDB com Helm
+      - name: Deploy Backend OMDB with Helm
+        run: |
+          cd backend_omdb/kubernetes
+          ls
+          pwd
+          helm upgrade --install backend-omdb . --values values.yaml
       
-      # # Deploy Backend POKE com Helm
-      # - name: Deploy Backend POKE with Helm
-      #   run: |
-      #     cd backend_pokemon/kubernetes
-      #     ls
-      #     pwd
-      #     helm upgrade --install backend-pokemon . --values values.yaml
+      # Deploy Backend POKE com Helm
+      - name: Deploy Backend POKE with Helm
+        run: |
+          cd backend_pokemon/kubernetes
+          ls
+          pwd
+          helm upgrade --install backend-pokemon . --values values.yaml
       
       # Deploy Frontend com Helm
       - name: Deploy Frontend with Helm
