@@ -13,7 +13,7 @@ on:
     
 jobs:
   Build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, X64]
 
     steps:
       # Checkout the code

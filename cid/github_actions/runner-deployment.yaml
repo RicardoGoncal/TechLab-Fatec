@@ -31,6 +31,8 @@ spec:
               value: "k8s"
             - name: RUNNER_EPHEMERAL
               value: "true"
+            - name: START_DOCKER_SERVICE
+              value: "true"
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 1000
