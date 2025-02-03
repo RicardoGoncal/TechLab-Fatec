@@ -50,3 +50,37 @@ jobs:
         run: |
           echo "📌 Tentando rodar docker ps..."
           docker ps || echo "⚠️ Falha ao acessar o Docker (talvez o daemon não esteja rodando?)"
+
+      
+      - name: Diagnóstico do Docker
+        run: |
+          echo "📌 Verificando processos do Docker..."
+          ps aux | grep dockerd || echo "⚠️ dockerd não está rodando como processo!"
+          
+          echo "📌 Verificando se o socket do Docker existe..."
+          ls -lah /var/run/docker.sock || echo "⚠️ Socket do Docker não encontrado!"
+
+          echo "📌 Verificando como o Docker está rodando..."
+          if [ -S /var/run/docker.sock ]; then
+            echo "✅ O socket do Docker está presente!"
+          else
+            echo "❌ O Docker não parece estar rodando corretamente!"
+          fi
+
+
+      - name: Iniciar Docker Manualmente
+        run: |
+          echo "📌 Tentando iniciar o Docker..."
+          sudo dockerd > /dev/null 2>&1 &
+
+          echo "📌 Aguardando 5 segundos para o Docker iniciar..."
+          sleep 5
+          
+          echo "📌 Testando conexão com Docker..."
+          docker ps || echo "⚠️ Ainda não foi possível conectar ao Docker!"
+
+
+      - name: Ajustar Permissões do Docker
+        run: |
+          echo "📌 Garantindo que o usuário tem acesso ao Docker..."
+          sudo chmod 666 /var/run/docker.sock
