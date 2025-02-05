@@ -17,6 +17,9 @@ spec:
       containers:
         - name: runner
           image: myoung34/github-runner:latest
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
           env:
             - name: REPO_URL
               value: "https://github.com/RicardoGoncal/TechLab-Fatec"
@@ -33,6 +36,10 @@ spec:
               value: "true"
             - name: START_DOCKER_SERVICE
               value: "true"
+      volumes:
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 1000
