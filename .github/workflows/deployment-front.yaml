@@ -1,6 +1,5 @@
-name: CI/CD - Build and Deploy backend_omdb & backend_pokemon
+name: CI/CD - Build and Deploy Frontend
 
-# Disparo manual ativado, eventos automáticos desativados
 # on:
 #   push:
 #     branches:
@@ -8,12 +7,14 @@ name: CI/CD - Build and Deploy backend_omdb & backend_pokemon
 #   pull_request:
 #     branches:
 #       - main
+#   workflow_dispatch:
+
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build and Push Docker Images
+    name: Build and Push Docker Image
     runs-on: [self-hosted, linux, X64]
 
     steps:
@@ -32,25 +33,17 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push backend_omdb Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./backend_omdb
-          file: backend_omdb/Dockerfile
+          context: ./front-end
+          file: front-end/my-vue-app/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/backend_omdb-git:latest
-
-      - name: Build and push backend_pokemon Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./backend_pokemon
-          file: backend_pokemon/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/backend_pokemon-git:latest
+          tags: ${{ secrets.DOCKER_REGISTRY }}/frontend-git:latest
 
   deploy:
     name: Deploy to Kubernetes
-    needs: build  # Só executa após o build
+    needs: build  # Só roda após a conclusão do build
     runs-on: [self-hosted, linux, X64]
 
     steps:
@@ -76,12 +69,7 @@ jobs:
         with:
           version: 'v3.12.0'
 
-      - name: Deploy Backend OMDB with Helm
+      - name: Deploy Frontend with Helm
         run: |
-          cd backend_omdb/kubernetes
-          helm upgrade --install backend-omdb . --values values.yaml
-
-      - name: Deploy Backend POKE with Helm
-        run: |
-          cd backend_pokemon/kubernetes
-          helm upgrade --install backend-pokemon . --values values.yaml
+          cd front-end/kubernetes
+          helm upgrade --install frontend . --values values.yaml
