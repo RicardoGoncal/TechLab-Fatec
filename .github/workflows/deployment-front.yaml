@@ -1,14 +1,5 @@
 name: CI/CD - Build and Deploy Frontend
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
-#   workflow_dispatch:
-
 on:
   workflow_dispatch:
 
@@ -16,6 +7,11 @@ jobs:
   build:
     name: Build and Push Docker Image
     runs-on: [self-hosted, linux, X64]
+
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
 
     steps:
       - name: Checkout code
@@ -25,6 +21,12 @@ jobs:
         run: |
           ls -la
           pwd
+
+      - name: Start Docker daemon
+        run: |
+          dockerd > /dev/null 2>&1 &
+          sleep 10
+          docker version
 
       - name: Log in to Docker registry
         uses: docker/login-action@v3
