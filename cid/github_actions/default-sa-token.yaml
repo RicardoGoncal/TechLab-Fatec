@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: default-sa-token
-  namespace: actions-runner-system
-  annotations:
-    kubernetes.io/service-account.name: default
-type: kubernetes.io/service-account-token

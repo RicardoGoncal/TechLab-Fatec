@@ -1,0 +1,14 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: github-runner
+  namespace: actions-runner-system
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: "RicardoGoncal/TechLab-Fatec"  # Substitua pelo seu repositório
+      labels:
+        - "self-hosted"
+        - "k8s-runner"
+      group: "default"
