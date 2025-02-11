@@ -7,11 +7,11 @@ WORKDIR /app
 # Copie o package.json e package-lock.json (se houver) para o diretório de trabalho
 COPY package*.json ./
 
-# Instale as dependências da aplicação
-RUN npm install
-
 # Copie o restante do código fonte para o diretório de trabalho
 COPY . .
+
+# Instale as dependências da aplicação
+RUN npm install
 
 # Construa a aplicação para produção
 RUN npm run build
