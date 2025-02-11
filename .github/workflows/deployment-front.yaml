@@ -38,7 +38,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./front-end
+          context: ./front-end/my-vue-app
           file: front-end/my-vue-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_REGISTRY }}/frontend-git:latest
