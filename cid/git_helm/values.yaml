@@ -42,7 +42,7 @@ authSecret:
   #github_app_installation_id: ""
   #github_app_private_key: |
   ## GitHub PAT Configuration
-  github_token: "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"
+  github_token: ""
   ### Basic auth for github API proxy
   #github_basicauth_username: ""
   #github_basicauth_password: ""
