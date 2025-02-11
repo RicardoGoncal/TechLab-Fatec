@@ -1,2 +1,8 @@
-export const API_URL_OMDB = "backend-omdb-service:8000/api1";
-export const API_URL_POKE = "backend-poke-service:8001/api2";
+// Export para uso de Nodeport
+export const API_URL_OMDB = "http://localhost:30000/api1";
+export const API_URL_POKE = "http://localhost:30001/api2";
+
+
+// Export para uso de LoadBalancer
+// export const API_URL_OMDB = "http://localhost:30000/api1";
+// export const API_URL_POKE = "http://localhost:30001/api2";
