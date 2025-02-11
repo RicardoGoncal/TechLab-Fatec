@@ -47,7 +47,7 @@ jobs:
           context: ./front-end/my-vue-app
           file: front-end/my-vue-app/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/frontend-git:latest
+          tags: ${{ secrets.DOCKER_REGISTRY }}/frontend-git:v1
 
   deploy:
     name: Deploy to Kubernetes
