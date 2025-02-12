@@ -43,7 +43,7 @@ jobs:
           context: ./backend_omdb
           file: backend_omdb/Dockerfile
           push: true
-          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-omdb:latest
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend-omdb/fatec-backend-omdb:latest
 
       - name: Build and push backend_pokemon Docker image to Artifact Registry
         uses: docker/build-push-action@v6
@@ -51,7 +51,7 @@ jobs:
           context: ./backend_pokemon
           file: backend_pokemon/Dockerfile
           push: true
-          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-poke:latest
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend-poke/fatec-backend-poke:latest
 
   # deploy:
   #   name: Deploy to Kubernetes
