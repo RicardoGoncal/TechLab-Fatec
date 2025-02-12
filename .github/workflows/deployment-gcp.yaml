@@ -26,7 +26,7 @@ jobs:
 
       - name: Authenticate Docker to GCP Artifact Registry
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker us-east1-docker.pkg.dev
 
       - name: Build and push backend_omdb Docker image to Artifact Registry
         uses: docker/build-push-action@v6
@@ -34,7 +34,7 @@ jobs:
           context: ./backend_omdb
           file: backend_omdb/Dockerfile
           push: true
-          tags: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-omdb:latest
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-omdb:latest
 
       - name: Build and push backend_pokemon Docker image to Artifact Registry
         uses: docker/build-push-action@v6
@@ -42,43 +42,43 @@ jobs:
           context: ./backend_pokemon
           file: backend_pokemon/Dockerfile
           push: true
-          tags: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-poke:latest
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/fatec-backend-poke:latest
 
-  deploy:
-    name: Deploy to Kubernetes
-    needs: build  # Só executa após o build
-    runs-on: [self-hosted, linux, X64]
+  # deploy:
+  #   name: Deploy to Kubernetes
+  #   needs: build  # Só executa após o build
+  #   runs-on: [self-hosted, linux, X64]
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v3
-        with:
-          version: '390.0.0'
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+  #     - name: Set up Google Cloud SDK
+  #       uses: google-github-actions/setup-gcloud@v3
+  #       with:
+  #         version: '390.0.0'
+  #         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Authenticate kubectl
-        run: |
-          gcloud container clusters get-credentials ${GCP_K8S_CLUSTER_NAME} --zone ${GCP_K8S_ZONE} --project ${{ secrets.GCP_PROJECT_ID }}
+  #     - name: Authenticate kubectl
+  #       run: |
+  #         gcloud container clusters get-credentials ${GCP_K8S_CLUSTER_NAME} --zone ${GCP_K8S_ZONE} --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Check connection with Kubernetes
-        run: |
-          kubectl get pods -A
-          kubectl get nodes
+  #     - name: Check connection with Kubernetes
+  #       run: |
+  #         kubectl get pods -A
+  #         kubectl get nodes
 
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: 'v3.12.0'
+  #     - name: Install Helm
+  #       uses: azure/setup-helm@v3
+  #       with:
+  #         version: 'v3.12.0'
 
-      - name: Deploy Backend OMDB with Helm
-        run: |
-          cd backend_omdb/kubernetes
-          helm upgrade --install backend-omdb . --values values.yaml
+  #     - name: Deploy Backend OMDB with Helm
+  #       run: |
+  #         cd backend_omdb/kubernetes
+  #         helm upgrade --install backend-omdb . --values values.yaml
 
-      - name: Deploy Backend POKE with Helm
-        run: |
-          cd backend_pokemon/kubernetes
-          helm upgrade --install backend-pokemon . --values values.yaml
+  #     - name: Deploy Backend POKE with Helm
+  #       run: |
+  #         cd backend_pokemon/kubernetes
+  #         helm upgrade --install backend-pokemon . --values values.yaml
