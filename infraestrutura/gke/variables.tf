@@ -1,6 +1,6 @@
 variable "project_id" {
   type = string
-  default = "workshop-fatec"
+  default = "lunar-mercury-450701-g6"
 }
 
 variable "region" {
