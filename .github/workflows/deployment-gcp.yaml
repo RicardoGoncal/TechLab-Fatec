@@ -53,6 +53,14 @@ jobs:
           push: true
           tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend-poke/fatec-backend-poke:latest
 
+      - name: Build and push Frontend Docker image to Artifact Registry
+        uses: docker/build-push-action@v6
+        with:
+          context: ./front-end/my-vue-app
+          file: front-end/my-vue-app/Dockerfile
+          push: true
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/frontend/fatec-frontend:latest
+
   # deploy:
   #   name: Deploy to Kubernetes
   #   needs: build  # Só executa após o build
