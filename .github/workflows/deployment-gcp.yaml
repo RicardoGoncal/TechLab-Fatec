@@ -83,35 +83,34 @@ jobs:
 
       - name: Authenticate with Service Account
         run: |
-          # echo "${{ secrets.GCP_SA_KEY }}" > /tmp/service-account.json
           printf "%s" "${{ secrets.GCP_SA_KEY }}" > /tmp/service-account.json
           cat /tmp/service-account.json
-          gcloud auth activate-service-account --key-file=/tmp/service-account.json
+          # gcloud auth activate-service-account --key-file=/tmp/service-account.json
           # gcloud auth list
 
-      - name: Print gcloud auth details
-        run: gcloud auth list
+      # - name: Print gcloud auth details
+      #   run: gcloud auth list
 
-      - name: Authenticate Cluster K8s
-        run: |
-          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+      # - name: Authenticate Cluster K8s
+      #   run: |
+      #     gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Check connection with Kubernetes
-        run: |
-          kubectl get pods -A
-          kubectl get nodes
+      # - name: Check connection with Kubernetes
+      #   run: |
+      #     kubectl get pods -A
+      #     kubectl get nodes
 
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: 'v3.12.0'
+      # - name: Install Helm
+      #   uses: azure/setup-helm@v3
+      #   with:
+      #     version: 'v3.12.0'
 
-      - name: Deploy Backend OMDB with Helm
-        run: |
-          cd backend_omdb/kubernetes
-          helm upgrade --install backend-omdb . --values values.yaml
+      # - name: Deploy Backend OMDB with Helm
+      #   run: |
+      #     cd backend_omdb/kubernetes
+      #     helm upgrade --install backend-omdb . --values values.yaml
 
-      - name: Deploy Backend POKE with Helm
-        run: |
-          cd backend_pokemon/kubernetes
-          helm upgrade --install backend-pokemon . --values values.yaml
+      # - name: Deploy Backend POKE with Helm
+      #   run: |
+      #     cd backend_pokemon/kubernetes
+      #     helm upgrade --install backend-pokemon . --values values.yaml
