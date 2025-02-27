@@ -87,8 +87,12 @@ jobs:
       - name: Authenticate with Service Account
         run: |
           echo "${{ secrets.GCP_SA_KEY }}" > /tmp/service-account.json
-          gcloud auth activate-service-account --key-file=/tmp/service-account.json
-          gcloud auth list
+          # gcloud auth activate-service-account --key-file=/tmp/service-account.json
+          # gcloud auth list
+
+      - name: Debug Check contents of the service account JSON file
+        run: |
+          cat /tmp/service-account.json
 
       - name: Print gcloud auth details
         run: gcloud auth list
