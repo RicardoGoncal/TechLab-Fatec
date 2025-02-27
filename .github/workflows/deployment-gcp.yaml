@@ -76,9 +76,13 @@ jobs:
           version: '390.0.0'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Authenticate kubectl
+      - name: Install kubectl
+        run: gcloud components install kubectl -q
+
+      - name: Authenticate Cluster K8s
         run: |
           gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+
       - name: Check connection with Kubernetes
         run: |
           kubectl get pods -A
