@@ -81,6 +81,9 @@ jobs:
       - name: Install kubectl
         run: gcloud components install kubectl -q
 
+      - name: Print gcloud auth details
+        run: gcloud auth list
+
       - name: Authenticate Cluster K8s
         run: |
           gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
