@@ -63,7 +63,7 @@ jobs:
 
   deploy:
     name: Deploy to Kubernetes
-    needs: build  # Só executa após o build
+    # needs: build  # Só executa após o build
     runs-on: [self-hosted, linux, X64]
 
     steps:
