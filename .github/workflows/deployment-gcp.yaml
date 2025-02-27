@@ -81,6 +81,11 @@ jobs:
       - name: Install kubectl
         run: gcloud components install kubectl -q
 
+      - name: Authenticate with Service Account
+        run: |
+          gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+          gcloud auth list
+
       - name: Print gcloud auth details
         run: gcloud auth list
 
