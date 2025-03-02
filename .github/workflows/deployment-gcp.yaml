@@ -89,14 +89,21 @@ jobs:
       # - name: Print gcloud auth details
       #   run: gcloud auth list
 
-      - name: Authenticate Cluster K8s
+      - name: Debug Kubernetes
         run: |
-          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+          gcloud container clusters list
+          gcloud config list
+          kubectl config view
 
-      - name: Check connection with Kubernetes
-        run: |
-          kubectl get pods -A
-          kubectl get nodes
+
+      # - name: Authenticate Cluster K8s
+      #   run: |
+      #     gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+
+      # - name: Check connection with Kubernetes
+      #   run: |
+      #     kubectl get pods -A
+      #     kubectl get nodes
 
       # - name: Install Helm
       #   uses: azure/setup-helm@v3
