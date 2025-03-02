@@ -70,7 +70,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          submodules: recursive
+          submodules: false
+
+      - name: Force Remove Submodules
+        run: |
+          git submodule deinit -f --all || true
+          git rm -rf --cached infraestrutura/gke/.terraform/modules/gke_cluster || true
+          rm -rf .git/modules/infraestrutura || true
+          git config --remove-section submodule.infraestrutura/gke/.terraform/modules/gke_cluster || true
+          git reset --hard
+          git clean -fdx
+
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
