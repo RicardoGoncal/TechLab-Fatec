@@ -103,7 +103,7 @@ jobs:
 
       - name: Authenticate Cluster K8s
         run: |
-          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }} --api-version v1beta1
 
       - name: Debug Kubernetes
         run: |
