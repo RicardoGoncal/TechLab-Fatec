@@ -72,44 +72,60 @@ jobs:
         with:
           submodules: false
 
-      - name: Force Remove Submodules
-        run: |
-          git submodule deinit -f --all || true
-          git rm -rf --cached infraestrutura/gke/.terraform/modules/gke_cluster || true
-          rm -rf .git/modules/infraestrutura || true
-          git config --remove-section submodule.infraestrutura/gke/.terraform/modules/gke_cluster || true
-          git reset --hard
-          git clean -fdx
-
-
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          version: '390.0.0'
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
-
       - name: Install kubectl
         run: gcloud components install kubectl -q
 
       - name: Authenticate with Service Account
         run: |
           echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > /tmp/service-account.json
-          gcloud auth activate-service-account --key-file=/tmp/service-account.json
+          ##gcloud auth activate-service-account --key-file=/tmp/service-account.json
 
-      # - name: Print gcloud auth details
-      #   run: gcloud auth list
+      - name: Auth GCP Production
+        uses: google-github-actions/auth@v1
+        with:
+          credentials: /tmp/service-account.json
 
-      - name: Authenticate Cluster K8s
+      - name: Get GKE cluster credentials to Production
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ secrets.GCP_K8S_CLUSTER_NAME }}
+          location: ${{ secrets.GCP_K8S_ZONE }}
+          credentials: /tmp/service-account.json
+
+      - name: Get Runner Public IP
+        id: external_ip
+        uses: haythem/external-ip@v1.3
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        # with:
+        #   version: '390.0.0'
+        #   project_id: ${{ secrets.GCP_PROJECT_ID }}
+        #   service_account_key: ${{ secrets.GCP_SA_KEY }}
+        #   export_default_credentials: true
+      
+      - name: Set external IP to be accessed on GKE
         run: |
-          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }} --api-version v1beta1
+          IP_LIST=$(gcloud container clusters describe fatec-gke-cluster --region=us-central1 --format=json | jq -r '.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock' | tr "\n" ",")
+          echo "Will be added IP List: ${IP_LIST}"
+          gcloud container clusters update fatec-gke-cluster --region=us-central1 --enable-master-authorized-networks --master-authorized-networks=${IP_LIST}${{ steps.external_ip.outputs.ipv4 }}/32
 
-      - name: Debug Kubernetes
+      - name: Deploy manifests to Production
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/service-account.json
         run: |
-          gcloud container clusters list
-          gcloud config list
-          kubectl config view
+          mkdir -p $(dirname ${{ env.GOOGLE_APPLICATION_CREDENTIALS }})
+          gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+  
+      # - name: Authenticate Cluster K8s
+      #   run: |
+      #     gcloud container clusters get-credentials ${{ secrets.GCP_K8S_CLUSTER_NAME }} --region ${{ secrets.GCP_K8S_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }} --api-version v1beta1
+
+      # - name: Debug Kubernetes
+      #   run: |
+      #     gcloud container clusters list
+      #     gcloud config list
+      #     kubectl config view
 
       # - name: Check connection with Kubernetes
       #   run: |
@@ -130,3 +146,11 @@ jobs:
       #   run: |
       #     cd backend_pokemon/kubernetes
       #     helm upgrade --install backend-pokemon . --values values.yaml
+
+      # - name: Remove external IP from GKE
+      #   if: always()
+      #   run: |
+      #     IP_LIST=$(gcloud container clusters describe shipay-production --region=southamerica-east1 --format=json | jq -r '.masterAuthorizedNetworksConfig.cidrBlocks[] | select(.cidrBlock != "${{ steps.external_ip.outputs.ipv4 }}/32") | .cidrBlock' | tr "\n" ",")
+      #     echo "Will be added IP List: ${IP_LIST}"
+      #     gcloud container clusters update shipay-production --region=southamerica-east1 --enable-master-authorized-networks --master-authorized-networks=${IP_LIST}
+
