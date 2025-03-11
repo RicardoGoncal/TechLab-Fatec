@@ -10,7 +10,7 @@ resource "google_compute_subnetwork" "fatec_subnet" {
   name = var.subnet_name
   region = var.region
   network = google_compute_network.fatec_vpc.name
-  ip_cidr_range = "10.0.0.0/24"
+  ip_cidr_range = "10.0.0.0/23"
 
   # Adiciona os intervalos para uso do Cluster GKE
   secondary_ip_range {
@@ -20,6 +20,6 @@ resource "google_compute_subnetwork" "fatec_subnet" {
 
   secondary_ip_range {
     range_name = "gke-001-services"
-    ip_cidr_range = "10.2.0.0/25"
+    ip_cidr_range = "10.2.0.0/24"
   }
 }

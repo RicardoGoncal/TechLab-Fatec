@@ -104,11 +104,11 @@ jobs:
         #   service_account_key: ${{ secrets.GCP_SA_KEY }}
         #   export_default_credentials: true
       
-      - name: Set external IP to be accessed on GKE
-        run: |
-          IP_LIST=$(gcloud container clusters describe fatec-gke-cluster --region=us-central1 --format=json | jq -r '.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock' | tr "\n" ",")
-          echo "Will be added IP List: ${IP_LIST}"
-          gcloud container clusters update fatec-gke-cluster --region=us-central1 --enable-master-authorized-networks --master-authorized-networks=${IP_LIST}${{ steps.external_ip.outputs.ipv4 }}/32
+      # - name: Set external IP to be accessed on GKE
+      #   run: |
+      #     IP_LIST=$(gcloud container clusters describe fatec-gke-cluster --region=us-central1 --format=json | jq -r '.masterAuthorizedNetworksConfig.cidrBlocks[] | .cidrBlock' | tr "\n" ",")
+      #     echo "Will be added IP List: ${IP_LIST}"
+      #     gcloud container clusters update fatec-gke-cluster --region=us-central1 --enable-master-authorized-networks --master-authorized-networks=${IP_LIST}${{ steps.external_ip.outputs.ipv4 }}/32
 
       - name: Deploy manifests to Production
         env:

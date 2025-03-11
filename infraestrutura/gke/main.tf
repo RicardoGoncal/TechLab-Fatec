@@ -29,7 +29,7 @@ module "gke_cluster" {
 
   node_pools = [{
     name = "fatec-pool"
-    machine_type = "e2-medium"
+    machine_type = "e2-standard-2"
     node_count = var.gke_num_nodes
     disk_size_db = 40
     disk_type = "pd-standard"
