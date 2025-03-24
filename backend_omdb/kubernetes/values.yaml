@@ -14,14 +14,14 @@ Deployment:
   containerPort: 8000
 
 ServiceKind:
-  enabled: true
+  enabled: false
   port: 8000  # Porta interna do serviço
   nodePort: 30000
   targetPort: 8000
   type: NodePort
 
 ServiceGateway:
-  enabled: false
+  enabled: true
   port: 80  # Porta interna do serviço
   targetPort: 8000
   protocol: TCP
