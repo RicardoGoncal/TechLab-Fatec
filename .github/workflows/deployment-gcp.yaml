@@ -92,9 +92,9 @@ jobs:
           location: ${{ secrets.GCP_K8S_ZONE }}
           credentials: /tmp/service-account.json
 
-      - name: Get Runner Public IP
-        id: external_ip
-        uses: haythem/external-ip@v1.2
+      # - name: Get Runner Public IP
+      #   id: external_ip
+      #   uses: haythem/external-ip@v1.2
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
