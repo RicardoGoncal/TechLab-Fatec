@@ -73,7 +73,7 @@ jobs:
           submodules: false
 
       - name: Install kubectl
-        run: gcloud components install kubectl -q
+        run: gcloud components install kubectl
 
       - name: Authenticate with Service Account
         run: |
