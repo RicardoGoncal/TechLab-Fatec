@@ -72,6 +72,11 @@ jobs:
         with:
           submodules: false
 
+      - name: Install Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'  # You can specify a version if needed
+
       - name: Install kubectl
         run: gcloud components install kubectl
 
