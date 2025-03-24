@@ -100,14 +100,6 @@ jobs:
       # - name: Get Runner Public IP
       #   id: external_ip
       #   uses: haythem/external-ip@v1.2
-
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        # with:
-        #   version: '390.0.0'
-        #   project_id: ${{ secrets.GCP_PROJECT_ID }}
-        #   service_account_key: ${{ secrets.GCP_SA_KEY }}
-        #   export_default_credentials: true
       
       # - name: Set external IP to be accessed on GKE
       #   run: |
@@ -115,7 +107,7 @@ jobs:
       #     echo "Will be added IP List: ${IP_LIST}"
       #     gcloud container clusters update fatec-gke-cluster --region=us-central1 --enable-master-authorized-networks --master-authorized-networks=${IP_LIST}${{ steps.external_ip.outputs.ipv4 }}/32
 
-      - name: Deploy manifests to Production
+      - name: Authenticate Cluster K8s
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/service-account.json
         run: |
