@@ -10,7 +10,7 @@ spec:
     app.kubernetes.io/name: {{ include "backend-poke.name" . }}  # Seleciona os pods que têm a label 'app: backend-poke'
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-    - protocol: {{ .Values.ServiceGateway.targetPort }}
+    - protocol: {{ .Values.ServiceGateway.protocol }}
       port: {{ .Values.ServiceGateway.port }}  # Porta interna do serviço
       targetPort: {{ .Values.ServiceGateway.targetPort }}  # Porta no pod que será mapeada
 {{- end }}

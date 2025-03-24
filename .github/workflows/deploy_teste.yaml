@@ -102,9 +102,9 @@ jobs:
       - name: Deploy Backend OMDB with Helm
         run: |
           cd backend_omdb/kubernetes
-          helm upgrade --install backend-omdb . --values values.yaml
+          helm upgrade --install backend-omdb . --values values.yaml -n production
 
       - name: Deploy Backend POKE with Helm
         run: |
           cd backend_pokemon/kubernetes
-          helm upgrade --install backend-pokemon . --values values.yaml
+          helm upgrade --install backend-pokemon . --values values.yaml -n production
