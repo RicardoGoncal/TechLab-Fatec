@@ -4,6 +4,7 @@
 
 image:
   pullPolicy: IfNotPresent
+  image_name: us-east1-docker.pkg.dev/lunar-mercury-450701-g6/frontend/fatec-frontend:latest
 
 nameOverride: ""
 fullnameOverride: ""
@@ -14,14 +15,14 @@ Deployment:
   containerPort: 8080
 
 ServiceKind:
-  enabled: true
+  enabled: false
   port: 80  # Porta interna do serviço
   nodePort: 30002
   targetPort: 8080
   type: NodePort
 
 ServiceGateway:
-  enabled: false
+  enabled: true
   port: 80  # Porta interna do serviço
   targetPort: 8080
   protocol: TCP

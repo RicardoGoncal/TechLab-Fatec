@@ -1,13 +1,16 @@
 ---
+{{- if .Values.ServiceGateway.enabled }}
 apiVersion: v1
 kind: Service  # Define o tipo de recurso como Service
 metadata:
-  name: vue-frontend-service  # Nome do serviço
-  namespace: production  # Namespace onde o serviço será criado
+  name: {{ printf "%s-service" (include "vue-frontend.name" .) }}  # Nome do serviço
+  namespace: {{ .Values.Deployment.namespace }}  # Namespace onde o serviço será criado
 spec:
   selector:
-    app: frontend  # Seleciona os pods que têm a label 'app: backend-omdb'
+    app.kubernetes.io/name: {{ include "vue-frontend.name" . }}  # Seleciona os pods que têm a label 'app: backend-omdb'
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-    - protocol: TCP
-      port: 80  # Porta interna do serviço
-      targetPort: 8080  # Porta no pod que será mapeada
+    - protocol: {{ .Values.ServiceGateway.protocol }}
+      port: {{ .Values.ServiceGateway.port }}  # Porta interna do serviço
+      targetPort: {{ .Values.ServiceGateway.targetPort }}  # Porta no pod que será mapeada
+{{- end }}

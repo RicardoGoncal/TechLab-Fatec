@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}  # Nome do container
-        image: ricardostudo/frontend-git:v1  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
+        image: {{ .Values.image.image_name }}  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.Deployment.containerPort }}  # Porta em que a aplicação Vue.js está rodando
