@@ -4,6 +4,7 @@
 
 image:
   pullPolicy: IfNotPresent
+  image_name: us-east1-docker.pkg.dev/lunar-mercury-450701-g6/backend-poke/fatec-backend-poke:latest
 
 nameOverride: ""
 fullnameOverride: ""

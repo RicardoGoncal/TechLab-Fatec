@@ -21,9 +21,11 @@ spec:
         app.kubernetes.io/name: {{ include "backend-poke.name" . }} # Rótulos usados para identificar os pods
         app.kubernetes.io/instance: {{ .Release.Name }}  
     spec:
+      imagePullSecrets:
+        - name: gcr-secret
       containers:
       - name: {{ .Chart.Name }}  # Nome do container
-        image: ricardostudo/fatec-backend-poke:latest  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
+        image: {{ .Values.image.image_name }}  # Substitua com o nome correto da imagem (Docker Hub ou registro privado)
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.Deployment.containerPort }}  # Porta em que a aplicação backend omdb estará rodando
