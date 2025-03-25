@@ -85,5 +85,5 @@ jobs:
 
       - name: Deploy Frontend with Helm
         run: |
-          cd backend_pokemon/kubernetes
+          cd front-end/kubernetes
           helm upgrade --install frontend . --values values.yaml -n production
