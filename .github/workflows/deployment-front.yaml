@@ -43,7 +43,7 @@ jobs:
           context: ./front-end/my-vue-app
           file: front-end/my-vue-app/Dockerfile
           push: true
-          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/frontend/fatec-frontend:latest
+          tags: us-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/frontend/fatec-frontend:v1
 
   deploy:
     name: Deploy to Kubernetes
