@@ -48,6 +48,7 @@ jobs:
   deploy:
     name: Deploy to Kubernetes
     runs-on: [self-hosted, linux, X64]
+    needs: build
 
     steps:
       - name: Checkout code
