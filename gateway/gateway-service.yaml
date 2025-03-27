@@ -1,23 +1,27 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-gateway
-  namespace: nginx-gateway
-  labels:
-    app.kubernetes.io/name: nginx-gateway
-    app.kubernetes.io/instance: nginx-gateway
-    app.kubernetes.io/version: "1.4.0"
-spec:
-  type: LoadBalancer
-  selector:
-    app.kubernetes.io/name: nginx-gateway
-    app.kubernetes.io/instance: nginx-gateway
-  ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: 80
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
+apiVersion: v1  # Define a versão da API do Kubernetes usada para este recurso.
+kind: Service  # Especifica que estamos criando um "Service", que expõe aplicações dentro do cluster.
+
+metadata:  # Metadados do Service, como nome e rótulos.
+  name: nginx-gateway  # Nome do Service, usado para identificá-lo dentro do cluster.
+  namespace: nginx-gateway  # Define em qual namespace esse Service será criado.
+  labels:  # Rótulos que ajudam na organização e identificação do recurso.
+    app.kubernetes.io/name: nginx-gateway  # Nome da aplicação associada ao Service.
+    app.kubernetes.io/instance: nginx-gateway  # Identifica uma instância específica da aplicação.
+    app.kubernetes.io/version: "1.4.0"  # Versão da aplicação sendo usada.
+
+spec:  # Especificações do Service.
+  type: LoadBalancer  # Tipo de Service. LoadBalancer expõe a aplicação para acesso externo ao cluster.
+  selector:  # Define quais pods esse Service deve direcionar o tráfego.
+    app.kubernetes.io/name: nginx-gateway  # Seleciona os pods que possuem esse rótulo.
+    app.kubernetes.io/instance: nginx-gateway  # Garante que está direcionando para a instância correta.
+
+  ports:  # Define as portas usadas para expor o serviço.
+    - name: http  # Nome descritivo da porta (opcional, mas útil para referência).
+      port: 80  # Porta externa do Service, acessível de fora do cluster.
+      protocol: TCP  # Protocolo de comunicação.
+      targetPort: 80  # Porta dentro dos pods que receberá o tráfego.
+    
+    - name: https  # Define outra porta, agora para HTTPS.
+      port: 443  # Porta externa para tráfego seguro.
+      protocol: TCP  # Usa o protocolo TCP.
+      targetPort: 443  # Porta nos pods que receberá requisições HTTPS.

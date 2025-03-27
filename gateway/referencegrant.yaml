@@ -1,20 +1,25 @@
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: grant-to-fatec-gateway
-  namespace: production
-spec:
-  from:
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      namespace: default  # O namespace onde o HTTPRoute está definido
-  to:
+apiVersion: gateway.networking.k8s.io/v1beta1  # Define a versão da API usada para este recurso do Kubernetes.
+kind: ReferenceGrant  # Especifica que estamos criando um "ReferenceGrant", que permite conexões entre namespaces.
+
+metadata:  # Metadados do ReferenceGrant, como nome e identificadores.
+  name: grant-to-fatec-gateway  # Nome do recurso, usado para identificá-lo dentro do cluster.
+  namespace: production  # Namespace onde este ReferenceGrant está sendo definido.
+
+spec:  # Especificações do ReferenceGrant.
+  from:  # Define quais recursos de outro namespace podem acessar os serviços dentro deste namespace.
+    - group: gateway.networking.k8s.io  # Especifica que o recurso que solicita acesso pertence ao grupo de networking.
+      kind: HTTPRoute  # Tipo de recurso que pode acessar os serviços (neste caso, rotas HTTP).
+      namespace: default  # Namespace onde o HTTPRoute está definido.
+
+  to:  # Define quais serviços deste namespace podem ser acessados.
+    - group: ""  # Grupo vazio indica que o recurso pertence ao grupo padrão do Kubernetes (core API).
+      kind: Service  # Define que os serviços são os alvos da permissão.
+      name: backend-omdb-service  # Permite que o serviço "backend-omdb-service" seja acessado pelo HTTPRoute.
+
     - group: ""
       kind: Service
-      name: backend-omdb-service
+      name: backend-poke-service  # Permite que o serviço "backend-poke-service" seja acessado.
+
     - group: ""
       kind: Service
-      name: backend-poke-service
-    - group: ""
-      kind: Service
-      name: vue-frontend-service
+      name: vue-frontend-service  # Permite que o serviço "vue-frontend-service" seja acessado.

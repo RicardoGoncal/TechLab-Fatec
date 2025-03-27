@@ -1,32 +1,40 @@
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: app1-route
-spec:
-  parentRefs:
-    - name: fatec-gateway
-  rules:
+apiVersion: gateway.networking.k8s.io/v1beta1  # Define a versão da API usada para este recurso do Kubernetes.
+kind: HTTPRoute  # Especifica que estamos criando um "HTTPRoute", que define regras de roteamento para tráfego HTTP.
+
+metadata:  # Metadados do HTTPRoute, como nome e identificadores.
+  name: app1-route  # Nome da rota, usado para identificá-la dentro do cluster.
+
+spec:  # Especificações do HTTPRoute.
+  parentRefs:  # Define qual Gateway será responsável por essa rota.
+    - name: fatec-gateway  # Especifica que essa rota pertence ao Gateway chamado "fatec-gateway".
+
+  rules:  # Lista de regras de roteamento.
+    - matches:  # Define um padrão de correspondência para essa regra.
+        - path:
+            type: PathPrefix  # Especifica que a correspondência será baseada no prefixo do caminho da URL.
+            value: "/api1"  # Qualquer solicitação que comece com "/api1" será direcionada ao backend definido abaixo.
+
+      backendRefs:  # Define o backend (serviço) que receberá as solicitações que correspondam ao caminho acima.
+        - name: backend-omdb-service  # Nome do serviço de backend que receberá as requisições.
+          namespace: production  # Namespace onde o serviço está localizado.
+          port: 80  # Porta do serviço backend que processará as requisições.
+
     - matches:
         - path:
             type: PathPrefix
-            value: "/api1"
+            value: "/api2"  # Qualquer solicitação que comece com "/api2" será direcionada ao backend abaixo.
+
       backendRefs:
-        - name: backend-omdb-service
+        - name: backend-poke-service  # Nome do serviço backend responsável pelas requisições "/api2".
           namespace: production
           port: 80
+
     - matches:
         - path:
             type: PathPrefix
-            value: "/api2"
+            value: "/"  # Qualquer outra solicitação (rota padrão) será encaminhada ao frontend.
+
       backendRefs:
-        - name: backend-poke-service
-          namespace: production
-          port: 80
-    - matches:
-        - path:
-            type: PathPrefix
-            value: "/"
-      backendRefs:
-        - name: vue-frontend-service
+        - name: vue-frontend-service  # Nome do serviço de frontend que responderá às requisições não especificadas acima.
           namespace: production
           port: 80
