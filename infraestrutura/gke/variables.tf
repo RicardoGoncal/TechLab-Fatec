@@ -1,6 +1,6 @@
 variable "project_id" {
   type = string
-  default = "lunar-mercury-450701-g6"
+  default = "mythic-attic-450700-r8"
 }
 
 variable "region" {

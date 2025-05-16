@@ -3,6 +3,7 @@ terraform {
     google = {
         source = "hashicorp/google"
         version = "6.5.0"
+        # credentials = file("<YOUR-CREDENTIALS-FILE>.json")
     }
   }
 
