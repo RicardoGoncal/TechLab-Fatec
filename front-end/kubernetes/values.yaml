@@ -4,7 +4,7 @@
 
 image:
   pullPolicy: IfNotPresent
-  image_name: us-east1-docker.pkg.dev/lunar-mercury-450701-g6/frontend/fatec-frontend:v1
+  image_name: us-east1-docker.pkg.dev/mythic-attic-450700-r8/frontend/fatec-frontend:v1
 
 nameOverride: ""
 fullnameOverride: ""
